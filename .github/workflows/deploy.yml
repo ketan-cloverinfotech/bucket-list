@@ -1,0 +1,74 @@
+name: build-and-deploy
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:          # build-only check on PRs (no deploy)
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22          # current LTS
+          cache: npm                # cache ~/.npm between runs for faster installs
+
+      - name: Install dependencies
+        run: npm ci --no-audit
+
+      # GitHub Pages serves project sites under /<repo>/ but user/org sites
+      # (<name>.github.io) under /. Compute the right Vite base automatically
+      # so asset paths and the service worker scope are always correct.
+      - name: Compute base path
+        id: base
+        run: |
+          repo="${{ github.event.repository.name }}"
+          if [[ "$repo" == *.github.io ]]; then
+            echo "base=/" >> "$GITHUB_OUTPUT"
+          else
+            echo "base=/$repo/" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build Vite app
+        run: npm run build
+        env:
+          VITE_BASE: ${{ steps.base.outputs.base }}
+
+      - name: Upload Pages artifact
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+  deploy:
+    # Only deploy on push / manual run, never on PRs.
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Setup GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
