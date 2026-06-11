@@ -8,7 +8,7 @@ export const THEME_KEY = 'wbl-theme'
 // Default first line of the Outlook mail. Editable in the Copy for Outlook tab.
 export const DEFAULT_GREETING = 'Hi Sir'
 
-export const statusOptions = ['Not Started', 'In Progress', 'Done']
+export const statusOptions = ['Not Started', 'In Progress', 'On Hold', 'Done']
 export const priorityOptions = ['Low', 'Medium', 'High']
 
 export const sortOptions = [
@@ -159,6 +159,7 @@ export function fmtDate(value) {
 export function getStatusIcon(status) {
   if (status === 'Done') return '✅'
   if (status === 'In Progress') return '🟡'
+  if (status === 'On Hold') return '⏸️'
   return '⬜'
 }
 
@@ -171,6 +172,7 @@ export function getPriorityClass(priority) {
 export function getStatusClass(status) {
   if (status === 'Done') return 'bg-green-100 text-green-700 border-green-200 dark:bg-green-500/15 dark:text-green-300 dark:border-green-500/30'
   if (status === 'In Progress') return 'bg-yellow-100 text-yellow-700 border-yellow-200 dark:bg-yellow-500/15 dark:text-yellow-300 dark:border-yellow-500/30'
+  if (status === 'On Hold') return 'bg-violet-100 text-violet-700 border-violet-200 dark:bg-violet-500/15 dark:text-violet-300 dark:border-violet-500/30'
   return 'bg-slate-100 text-slate-700 border-slate-200 dark:bg-slate-700 dark:text-slate-200 dark:border-slate-600'
 }
 
@@ -184,7 +186,7 @@ export function dueBadgeClass(state) {
 // Sorting
 // ---------------------------------------------------------------------------
 const priorityRank = { High: 0, Medium: 1, Low: 2 }
-const statusRank = { 'In Progress': 0, 'Not Started': 1, Done: 2 }
+const statusRank = { 'In Progress': 0, 'Not Started': 1, 'On Hold': 2, Done: 3 }
 
 export function sortItems(items, sortKey) {
   if (sortKey === 'manual') return items

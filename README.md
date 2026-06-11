@@ -5,7 +5,7 @@ A React + Vite app for tracking work bucket-list items and copying a clean Outlo
 ## Features
 
 - Add / edit work items inline (title, category, priority, status, target date, notes)
-- Status tracking: Not Started, In Progress, Done — with auto completion %
+- Status tracking: Not Started, In Progress, On Hold, Done — with auto completion %
 - **Overdue / Due-soon badges** driven by the target date
 - **Filter** by status and priority (with live counts) + free-text search
 - **Sort** by priority, target date, status, recently added, or manual order

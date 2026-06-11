@@ -2,7 +2,7 @@ import { SummaryCard } from './ui.jsx'
 
 export default function SummaryCards({ summary }) {
   return (
-    <section className="mb-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    <section className="mb-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
       <SummaryCard title="Total Items" value={summary.total} description="All bucket list items" />
       <SummaryCard
         title="Done"
@@ -15,6 +15,12 @@ export default function SummaryCards({ summary }) {
         value={summary.inProgress}
         description="Currently active"
         accent="text-amber-600 dark:text-amber-400"
+      />
+      <SummaryCard
+        title="On Hold"
+        value={summary.onHold}
+        description="Paused / waiting"
+        accent="text-violet-600 dark:text-violet-400"
       />
       <SummaryCard
         title={summary.overdue > 0 ? 'Overdue' : 'Not Started'}

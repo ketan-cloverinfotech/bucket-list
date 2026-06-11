@@ -163,7 +163,7 @@ export default function App() {
                 <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100">Report summary</h3>
                 <p className="mt-2 text-slate-700 dark:text-slate-300">
                   Your work bucket list is <b>{bl.summary.progress}% completed</b>. Completed items show ✅, in-progress 🟡,
-                  pending ⬜. Showing {visibleItems.length} of {bl.items.length} item{bl.items.length === 1 ? '' : 's'}.
+                  on hold ⏸️, pending ⬜. Showing {visibleItems.length} of {bl.items.length} item{bl.items.length === 1 ? '' : 's'}.
                 </p>
               </div>
             </div>

@@ -33,10 +33,11 @@ export function useBucketList() {
     const total = items.length
     const done = items.filter((i) => i.status === 'Done').length
     const inProgress = items.filter((i) => i.status === 'In Progress').length
+    const onHold = items.filter((i) => i.status === 'On Hold').length
     const notStarted = items.filter((i) => i.status === 'Not Started').length
     const overdue = items.filter((i) => dueState(i.targetDate, i.status) === 'overdue').length
     const progress = total === 0 ? 0 : Math.round((done / total) * 100)
-    return { total, done, inProgress, notStarted, overdue, progress }
+    return { total, done, inProgress, onHold, notStarted, overdue, progress }
   }, [items])
 
   // --- mutations -----------------------------------------------------------
